@@ -202,6 +202,7 @@ void NewGameInitData(void)
     DeactivateAllRoamers();
     gSaveBlock1Ptr->registeredItem = ITEM_NONE;
     ClearBag();
+    //InitRandomizer();
     NewGameInitPCItems();
     ClearPokeblocks();
     ClearDecorationInventories();
