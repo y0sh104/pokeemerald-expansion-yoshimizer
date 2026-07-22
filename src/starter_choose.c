@@ -110,15 +110,18 @@ static const u8 sStarterLabelCoords[STARTER_MON_COUNT][2] =
     {8, 4},
 };
 
-#define GRASS_STARTER (IS_FRLG ? SPECIES_BULBASAUR  : SPECIES_TREECKO)
-#define FIRE_STARTER  (IS_FRLG ? SPECIES_CHARMANDER : SPECIES_TORCHIC)
-#define WATER_STARTER (IS_FRLG ? SPECIES_SQUIRTLE   : SPECIES_MUDKIP )
+#define GRASS_STARTER (IS_FRLG ? SPECIES_BULBASAUR  : SPECIES_RAYQUAZA)
+#define FIRE_STARTER  (IS_FRLG ? SPECIES_CHARMANDER : SPECIES_TINKATON)
+#define WATER_STARTER (IS_FRLG ? SPECIES_SQUIRTLE   : SPECIES_WURMPLE)
 
 static const u16 sStarterMon[STARTER_MON_COUNT] =
 {
     GRASS_STARTER,
     FIRE_STARTER,
     WATER_STARTER,
+    //YR_RandomPokemon_StarterPool{}
+    //YR_RandomPokemon_StarterPool{}
+    //YR_RandomPokemon_StarterPool{}
 };
 
 static const struct BgTemplate sBgTemplates[3] =

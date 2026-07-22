@@ -840,9 +840,20 @@ void CreateRandomMon(struct Pokemon *mon, enum Species species, u8 level)
     CreateRandomMonWithIVs(mon, species, level, USE_RANDOM_IVS);
 }
 
+void YR_CreateStarterMon(struct Pokemon *mon, enum Species species, u8 level)
+{
+    YR_CreateStarterMonWithIVs(mon, species, level, USE_RANDOM_IVS);
+}
+
 void CreateRandomMonWithIVs(struct Pokemon *mon, enum Species species, u8 level, u8 fixedIv)
 {
     CreateMonWithIVs(mon, species, level, Random32(), OTID_STRUCT_PLAYER_ID, fixedIv);
+    GiveMonInitialMoveset(mon);
+}
+
+void YR_CreateStarterMonWithIVs(struct Pokemon *mon, enum Species species, u8 level, u8 fixedIv)
+{
+    YR_CreateStarterMonWithIVsSub(mon, species, level, Random32(), OTID_STRUCT_PLAYER_ID, fixedIv);
     GiveMonInitialMoveset(mon);
 }
 
@@ -860,6 +871,13 @@ void CreateMonWithIVs(struct Pokemon *mon, enum Species species, u8 level, u32 p
 {
     CreateMon(mon, species, level, personality, trainerId);
     SetBoxMonIVs(&mon->box, fixedIV);
+    CalculateMonStats(mon);
+}
+
+void YR_CreateStarterMonWithIVsSub(struct Pokemon *mon, enum Species species, u8 level, u32 personality, struct OriginalTrainerId trainerId, u8 fixedIV)
+{
+    CreateMon(mon, species, level, personality, trainerId);
+    YR_SetStarterMonIVs(&mon->box, fixedIV);
     CalculateMonStats(mon);
 }
 
@@ -932,6 +950,41 @@ void SetBoxMonIVs(struct BoxPokemon *mon, u8 fixedIV)
     SetBoxMonData(mon, MON_DATA_SPDEF_IV, &iv);
 
     SetBoxMonPerfectIVs(mon, gSpeciesInfo[species].perfectIVCount);
+}
+
+void YR_SetStarterMonIVs(struct BoxPokemon *mon, u8 fixedIV)
+{
+    u32 i, value;
+
+    if (fixedIV < USE_RANDOM_IVS)
+    {
+        for (i = 0; i < NUM_STATS; i++)
+            SetBoxMonData(mon, MON_DATA_HP_IV + i, &fixedIV);
+        return;
+    }
+
+    u32 iv;
+    u32 ivRandom = Random32();
+    enum Species species = GetBoxMonData(mon, MON_DATA_SPECIES);
+    value = (u16)ivRandom;
+
+    iv = value & MAX_IV_MASK;
+    SetBoxMonData(mon, MON_DATA_HP_IV, &iv);
+    iv = (value & (MAX_IV_MASK << 5)) >> 5;
+    SetBoxMonData(mon, MON_DATA_ATK_IV, &iv);
+    iv = (value & (MAX_IV_MASK << 10)) >> 10;
+    SetBoxMonData(mon, MON_DATA_DEF_IV, &iv);
+
+    value = (u16)(ivRandom >> 16);
+
+    iv = value & MAX_IV_MASK;
+    SetBoxMonData(mon, MON_DATA_SPEED_IV, &iv);
+    iv = (value & (MAX_IV_MASK << 5)) >> 5;
+    SetBoxMonData(mon, MON_DATA_SPATK_IV, &iv);
+    iv = (value & (MAX_IV_MASK << 10)) >> 10;
+    SetBoxMonData(mon, MON_DATA_SPDEF_IV, &iv);
+
+    SetBoxMonPerfectIVs(mon, 5);
 }
 
 void SetBoxMonPerfectIVs(struct BoxPokemon *mon, u32 numPerfect)

@@ -492,6 +492,22 @@ u32 ScriptGiveMon(enum Species species, u8 level, enum Item item)
     return GiveScriptedMonToPlayer(&mon, PARTY_SIZE);
 }
 
+u32 YR_ScriptGiveStarterMon(enum Species species, u8 level, enum Item item)
+{
+    struct Pokemon mon;
+    u8 heldItem[2];
+
+    YR_CreateStarterMon(&mon, species, level);
+    if (item)
+    {
+        heldItem[0] = item;
+        heldItem[1] = item >> 8;
+        SetMonData(&mon, MON_DATA_HELD_ITEM, heldItem);
+    }
+
+    return GiveScriptedMonToPlayer(&mon, PARTY_SIZE);
+}
+
 #define PARSE_FLAG(n, default_) (flags & (1 << (n))) ? VarGet(ScriptReadHalfword(ctx)) : (default_)
 
 /* Give or create a mon to either player or opponent
