@@ -23,6 +23,9 @@
 #include "window.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
+#include "constants/species.h"
+#include "YR_Randomizer.h"
+#include "random.h"
 
 #define STARTER_MON_COUNT   3
 
@@ -108,20 +111,6 @@ static const u8 sStarterLabelCoords[STARTER_MON_COUNT][2] =
     {0, 9},
     {16, 10},
     {8, 4},
-};
-
-#define GRASS_STARTER (IS_FRLG ? SPECIES_BULBASAUR  : SPECIES_RAYQUAZA)
-#define FIRE_STARTER  (IS_FRLG ? SPECIES_CHARMANDER : SPECIES_TINKATON)
-#define WATER_STARTER (IS_FRLG ? SPECIES_SQUIRTLE   : SPECIES_WURMPLE)
-
-static const u16 sStarterMon[STARTER_MON_COUNT] =
-{
-    GRASS_STARTER,
-    FIRE_STARTER,
-    WATER_STARTER,
-    //YR_RandomPokemon_StarterPool{}
-    //YR_RandomPokemon_StarterPool{}
-    //YR_RandomPokemon_StarterPool{}
 };
 
 static const struct BgTemplate sBgTemplates[3] =
@@ -349,11 +338,56 @@ static const struct SpriteTemplate sSpriteTemplate_StarterCircle =
     .callback = SpriteCB_StarterPokemon
 };
 
+#define YR_STARTER_POOL \
+{ \
+    SPECIES_CHIMCHAR, \
+    SPECIES_TORCHIC, \
+    SPECIES_MUDKIP, \
+    SPECIES_TURTWIG, \
+    SPECIES_PIPLUP, \
+    SPECIES_SNIVY, \
+    SPECIES_TEPIG, \
+    SPECIES_OSHAWOTT, \
+    SPECIES_CHESPIN, \
+    SPECIES_FENNEKIN, \
+    SPECIES_FROAKIE, \
+    SPECIES_CYNDAQUIL, \
+    SPECIES_TOTODILE, \
+    SPECIES_CHIKORITA, \
+    SPECIES_RIOLU, \
+    SPECIES_LILLIPUP \
+}
+
+u16 YR_RandomPokemon_StarterPool(void)
+{
+    static const u16 starterPool[] = YR_STARTER_POOL;
+    static const u16 poolSize = sizeof(starterPool) / sizeof(starterPool[0]);
+
+    return starterPool[Random() % poolSize];
+};
+
+
+static u16 sStarterMon[STARTER_MON_COUNT];
+static bool8 sStarterMonInitialized = FALSE;
+
+static void InitStarterMons(void)
+{
+    sStarterMon[0] = YR_RandomPokemon_StarterPool();
+    sStarterMon[1] = YR_RandomPokemon_StarterPool();
+    sStarterMon[2] = YR_RandomPokemon_StarterPool();
+
+    sStarterMonInitialized = TRUE;
+}
+
 // .text
 u16 GetStarterPokemon(u16 chosenStarterId)
 {
+    if (!sStarterMonInitialized)
+        InitStarterMons();
+
     if (chosenStarterId > STARTER_MON_COUNT)
         chosenStarterId = 0;
+
     return sStarterMon[chosenStarterId];
 }
 
