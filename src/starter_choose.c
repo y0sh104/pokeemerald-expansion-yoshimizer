@@ -338,57 +338,73 @@ static const struct SpriteTemplate sSpriteTemplate_StarterCircle =
     .callback = SpriteCB_StarterPokemon
 };
 
-#define YR_STARTER_POOL \
-{ \
-    SPECIES_CHIMCHAR, \
-    SPECIES_TORCHIC, \
-    SPECIES_MUDKIP, \
-    SPECIES_TURTWIG, \
-    SPECIES_PIPLUP, \
-    SPECIES_SNIVY, \
-    SPECIES_TEPIG, \
-    SPECIES_OSHAWOTT, \
-    SPECIES_CHESPIN, \
-    SPECIES_FENNEKIN, \
-    SPECIES_FROAKIE, \
-    SPECIES_CYNDAQUIL, \
-    SPECIES_TOTODILE, \
-    SPECIES_CHIKORITA, \
-    SPECIES_RIOLU, \
-    SPECIES_LILLIPUP \
-}
-
-u16 YR_RandomPokemon_StarterPool(void)
+static const u16 YR_sStarterPool[] =
 {
-    static const u16 starterPool[] = YR_STARTER_POOL;
-    static const u16 poolSize = sizeof(starterPool) / sizeof(starterPool[0]);
-
-    return starterPool[Random() % poolSize];
+    SPECIES_CHIMCHAR,
+    SPECIES_TORCHIC,
+    SPECIES_MUDKIP,
+    SPECIES_TURTWIG,
+    SPECIES_PIPLUP,
+    SPECIES_SNIVY,
+    SPECIES_TEPIG,
+    SPECIES_OSHAWOTT,
+    SPECIES_CHESPIN,
+    SPECIES_FENNEKIN,
+    SPECIES_FROAKIE,
+    SPECIES_CYNDAQUIL,
+    SPECIES_TOTODILE,
+    SPECIES_CHIKORITA,
+    SPECIES_RIOLU,
+    SPECIES_LILLIPUP,
 };
 
-
-static u16 sStarterMon[STARTER_MON_COUNT];
-static bool8 sStarterMonInitialized = FALSE;
-
-static void InitStarterMons(void)
+static void YR_ShuffleStarterPool(u16 *pool, u16 size)
 {
-    sStarterMon[0] = YR_RandomPokemon_StarterPool();
-    sStarterMon[1] = YR_RandomPokemon_StarterPool();
-    sStarterMon[2] = YR_RandomPokemon_StarterPool();
+    for (u16 i = size - 1; i > 0; i--)
+    {
+        u16 j = Random() % (i + 1);
 
-    sStarterMonInitialized = TRUE;
+        u16 temp = pool[i];
+        pool[i] = pool[j];
+        pool[j] = temp;
+    }
+}
+
+static u16 YR_sStarterMon[STARTER_MON_COUNT];
+static bool8 YR_sStarterMonInitialized = FALSE;
+
+static void YR_InitStarterMons(void)
+{
+    u16 shuffledPool[ARRAY_COUNT(YR_sStarterPool)];
+
+    // Copy the original pool
+    for (u16 i = 0; i < ARRAY_COUNT(YR_sStarterPool); i++)
+    {
+        shuffledPool[i] = YR_sStarterPool[i];
+    }
+
+    // Randomize the order
+    YR_ShuffleStarterPool(shuffledPool, ARRAY_COUNT(shuffledPool));
+
+    // Take the first three
+    for (u16 i = 0; i < STARTER_MON_COUNT; i++)
+    {
+        YR_sStarterMon[i] = shuffledPool[i];
+    }
+
+    YR_sStarterMonInitialized = TRUE;
 }
 
 // .text
 u16 GetStarterPokemon(u16 chosenStarterId)
 {
-    if (!sStarterMonInitialized)
-        InitStarterMons();
+    if (!YR_sStarterMonInitialized)
+        YR_InitStarterMons();
 
     if (chosenStarterId > STARTER_MON_COUNT)
         chosenStarterId = 0;
 
-    return sStarterMon[chosenStarterId];
+    return YR_sStarterMon[chosenStarterId];
 }
 
 static void VblankCB_StarterChoose(void)
