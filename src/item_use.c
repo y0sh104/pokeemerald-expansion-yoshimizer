@@ -123,6 +123,7 @@ static const struct YesNoFuncTable sUseTMHMYesNoFuncTable =
 };
 
 #define tEnigmaBerryType data[4]
+
 static void SetUpItemUseCallback(u8 taskId)
 {
     enum ItemType type;
@@ -1649,23 +1650,40 @@ void YR_ItemUseOutOfBattle_EndlessRareCandy(u8 taskId)
     SetUpItemUseCallback(taskId);
 }
 
-void YR_ItemUseOutOfBattle_PortableHeal(void)
+static const u8 sText_YR_PortableHeal[] = _("Your party has successfully recovered.\p");
+
+void YR_ItemUseOutOfBattle_PortableHeal(u8 taskId)
 {
+    PlaySE(MUS_HEAL);
     HealPlayerParty();
+    DisplayItemMessage(taskId, FONT_NORMAL, sText_YR_PortableHeal, CloseItemMessage);
 }
 
-void YR_ItemUseOutOfBattle_ToggleRepel(void)
+static const u8 sText_YR_RepelOff[] = _("Repel is now OFF.\p");
+static const u8 sText_YR_RepelOn[]  = _("Repel is now ON.\p");
+
+void YR_ItemUseOutOfBattle_ToggleRepel(u8 taskId)
 {
     if (FlagGet(FLAG_YR_TOGGLE_REPEL))
     {
         //TURN OFF
+        PlaySE(SE_USE_ITEM);
+        DisplayItemMessage(taskId, FONT_NORMAL, sText_YR_RepelOff, CloseItemMessage);
         FlagClear(FLAG_YR_TOGGLE_REPEL);
     }
     else
     {
         //TURN ON
+        PlaySE(SE_REPEL);
+        DisplayItemMessage(taskId, FONT_NORMAL, sText_YR_RepelOn, CloseItemMessage);
         FlagSet(FLAG_YR_TOGGLE_REPEL);
     }
+}
+
+void YR_ItemUseOutOfBattle_CapRareCandy(u8 taskId)
+{
+    gItemUseCB = YR_ItemUseCB_CapRareCandy;
+    SetUpItemUseCallback(taskId);
 }
 
 #undef tUsingRegisteredKeyItem

@@ -111,19 +111,11 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GiveStarterEvent::
 	waitmessage
 	playfanfare MUS_OBTAIN_ITEM
 	waitfanfare
-	giveitem ITEM_YR_ENDLESS_RARE_CANDY
-	playfanfare MUS_OBTAIN_ITEM
-	waitfanfare
-	giveitem ITEM_YR_TOGGLE_REPEL
-	playfanfare MUS_OBTAIN_ITEM
-	waitfanfare
-	giveitem ITEM_YR_PORTABLE_HEAL
-	playfanfare MUS_OBTAIN_ITEM
-	waitfanfare
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_WhyNotGiveNicknameToMon, MSGBOX_YESNO
 	goto_if_eq VAR_RESULT, YES, LittlerootTown_ProfessorBirchsLab_EventScript_NicknameStarter
 	goto_if_eq VAR_RESULT, NO, LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival
 	end
+	
 
 LittlerootTown_ProfessorBirchsLab_EventScript_NicknameStarter::
 	setvar VAR_0x8004, 0
@@ -139,6 +131,11 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival::
 
 LittlerootTown_ProfessorBirchsLab_EventScript_AgreeToSeeRival::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_GetRivalToTeachYou, MSGBOX_DEFAULT
+	msgbox YR_LittlerootTown_ProfessorBirchsLab_Text_SponsoredItems, MSGBOX_DEFAULT
+	giveitem ITEM_YR_ENDLESS_RARE_CANDY
+	giveitem ITEM_YR_CAP_RARE_CANDY
+	giveitem ITEM_YR_TOGGLE_REPEL
+	giveitem ITEM_YR_PORTABLE_HEAL
 	clearflag FLAG_HIDE_ROUTE_101_BOY
 	setvar VAR_BIRCH_LAB_STATE, 3
 	releaseall
@@ -704,6 +701,10 @@ LittlerootTown_ProfessorBirchsLab_Text_LikeYouToHavePokemon:
 	.string "I'd like you to have the POKéMON you\l"
 	.string "used earlier.\p"
 	.string "{PLAYER} received the {STR_VAR_1}!$"
+
+YR_LittlerootTown_ProfessorBirchsLab_Text_SponsoredItems:
+	.string "Here take these as well.\n"
+	.string "They are sponsored by Yoshi.\p"
 
 LittlerootTown_ProfessorBirchsLab_Text_WhyNotGiveNicknameToMon:
 	.string "PROF. BIRCH: While you're at it, why not\n"

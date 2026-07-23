@@ -15848,7 +15848,24 @@ const struct ItemInfo gItemsInfo[] =
         .type = ITEM_USE_PARTY_MENU,
         .fieldUseFunc = YR_ItemUseOutOfBattle_EndlessRareCandy,
         .effect = gItemEffect_RareCandy,
-        .flingPower = 30,
+        .iconPic = gItemIcon_RareCandy,
+        .iconPalette = gItemIconPalette_RareCandy,
+    },
+
+    [ITEM_YR_CAP_RARE_CANDY] =
+    {
+        .name = ITEM_NAME("Level to Cap Candy"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Raises the level\n"
+            "of a Pokémon to\n"
+            "the level cap.\n"
+            "Never used up."),
+        .pocket = POCKET_KEY_ITEMS,
+        .sortType = ITEM_TYPE_LEVEL_UP_ITEM,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = YR_ItemUseOutOfBattle_CapRareCandy,
+        .effect = gItemEffect_RareCandy,
         .iconPic = gItemIcon_RareCandy,
         .iconPalette = gItemIconPalette_RareCandy,
     },
@@ -15859,8 +15876,9 @@ const struct ItemInfo gItemsInfo[] =
         .name = ITEM_NAME("Toggle Repel"),
         .price = 0,
         .description = COMPOUND_STRING(
-            "Infinitely repels weak wild\n"
-            "Pokémon. Can be toggled."),
+            "Infinitely repels\n"
+            "wild Pokémon.\n"
+            "Can be toggled."),
         .pocket = POCKET_KEY_ITEMS,
         .sortType = ITEM_TYPE_FIELD_USE,
         .type = ITEM_USE_FIELD,
@@ -15883,7 +15901,7 @@ const struct ItemInfo gItemsInfo[] =
         .type = ITEM_USE_FIELD,
         .fieldUseFunc = YR_ItemUseOutOfBattle_PortableHeal,
         .iconPic = gItemIcon_ExpCandyXL,
-        .iconPalette = gItemIconPalette_ExpCandyXL,
+        .iconPalette = gItemIconPalette_ExpCandies,
     },
 };
 
