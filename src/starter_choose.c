@@ -340,22 +340,11 @@ static const struct SpriteTemplate sSpriteTemplate_StarterCircle =
 
 static const u16 YR_sStarterPool[] =
 {
-    SPECIES_CHIMCHAR,
-    SPECIES_TORCHIC,
-    SPECIES_MUDKIP,
-    SPECIES_TURTWIG,
-    SPECIES_PIPLUP,
-    SPECIES_SNIVY,
-    SPECIES_TEPIG,
-    SPECIES_OSHAWOTT,
-    SPECIES_CHESPIN,
-    SPECIES_FENNEKIN,
-    SPECIES_FROAKIE,
-    SPECIES_CYNDAQUIL,
-    SPECIES_TOTODILE,
-    SPECIES_CHIKORITA,
-    SPECIES_RIOLU,
-    SPECIES_LILLIPUP,
+    SPECIES_TINKATINK,
+    SPECIES_AIPOM,
+    SPECIES_RAYQUAZA,
+    SPECIES_PIKACHU,
+    SPECIES_SPECTRIER,
 };
 
 static void YR_ShuffleStarterPool(u16 *pool, u16 size)

@@ -15832,6 +15832,59 @@ const struct ItemInfo gItemsInfo[] =
         .iconPic = gItemIcon_PokeshiDoll,
         .iconPalette = gItemIconPalette_PokeshiDoll,
     },
+
+    //Customs
+    
+    [ITEM_YR_ENDLESS_RARE_CANDY] =
+    {
+        .name = ITEM_NAME("Endless Rare Candy"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Raises the level\n"
+            "of a Pokémon by\n"
+            "one. Never used up."),
+        .pocket = POCKET_KEY_ITEMS,
+        .sortType = ITEM_TYPE_LEVEL_UP_ITEM,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = YR_ItemUseOutOfBattle_EndlessRareCandy,
+        .effect = gItemEffect_RareCandy,
+        .flingPower = 30,
+        .iconPic = gItemIcon_RareCandy,
+        .iconPalette = gItemIconPalette_RareCandy,
+    },
+
+    
+    [ITEM_YR_TOGGLE_REPEL] =
+    {
+        .name = ITEM_NAME("Toggle Repel"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Infinitely repels weak wild\n"
+            "Pokémon. Can be toggled."),
+        .pocket = POCKET_KEY_ITEMS,
+        .sortType = ITEM_TYPE_FIELD_USE,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = YR_ItemUseOutOfBattle_ToggleRepel,
+        .iconPic = gItemIcon_Repel,
+        .iconPalette = gItemIconPalette_Repel,
+    },
+
+    
+    [ITEM_YR_PORTABLE_HEAL] =
+    {
+        .name = ITEM_NAME("Portable Heal"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Restores HP and PP\n"
+            "and cures status\n"
+            "conditions."),
+        .pocket = POCKET_KEY_ITEMS,
+        .sortType = ITEM_TYPE_FIELD_USE,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = YR_ItemUseOutOfBattle_PortableHeal,
+        .iconPic = gItemIcon_ExpCandyXL,
+        .iconPalette = gItemIconPalette_ExpCandyXL,
+    },
 };
 
 #undef ITEM_NAME

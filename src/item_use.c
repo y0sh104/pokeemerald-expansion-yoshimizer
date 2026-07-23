@@ -36,6 +36,7 @@
 #include "party_menu.h"
 #include "pokeblock.h"
 #include "pokemon.h"
+#include "script_pokemon_util.h"
 #include "script.h"
 #include "sound.h"
 #include "strings.h"
@@ -1638,6 +1639,32 @@ void ItemUseOutOfBattle_TownMap(u8 taskId)
     else
     {
         gTasks[taskId].func = ItemUseOnFieldCB_TownMap;
+    }
+}
+
+//Customs
+void YR_ItemUseOutOfBattle_EndlessRareCandy(u8 taskId)
+{
+    gItemUseCB = YR_ItemUseCB_EndlessRareCandy;
+    SetUpItemUseCallback(taskId);
+}
+
+void YR_ItemUseOutOfBattle_PortableHeal(void)
+{
+    HealPlayerParty();
+}
+
+void YR_ItemUseOutOfBattle_ToggleRepel(void)
+{
+    if (FlagGet(FLAG_YR_TOGGLE_REPEL))
+    {
+        //TURN OFF
+        FlagClear(FLAG_YR_TOGGLE_REPEL);
+    }
+    else
+    {
+        //TURN ON
+        FlagSet(FLAG_YR_TOGGLE_REPEL);
     }
 }
 
